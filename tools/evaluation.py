@@ -3,11 +3,11 @@ import numpy as np
 import torch
 import sys
 sys.path.append('/home/ltdoanh/jupyter/jupyter/ldtan/MotionDiffuse/text2motion')
-from datasets1 import get_dataset_motion_loader, get_motion_loader
+from datasets import get_dataset_motion_loader, get_motion_loader
 from models import MotionTransformer
 from utils.get_opt import get_opt
 from utils.metrics import *
-from datasets1 import EvaluatorModelWrapper
+from datasets import EvaluatorModelWrapper
 from collections import OrderedDict
 from utils.plot_script import *
 from utils import paramUtil
