@@ -8,7 +8,7 @@ from utils.plot_script import *
 
 from models import MotionTransformer
 from trainers import DDPMTrainer
-from datasets1 import Text2MotionDataset
+from datasets import Text2MotionDataset
 
 # from mmcv.runner import get_dist_info, init_dist
 # from mmcv.parallel import MMDistributedDataParallel, MMDataParallel

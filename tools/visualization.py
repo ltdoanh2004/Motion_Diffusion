@@ -9,7 +9,7 @@ import utils.paramUtil as paramUtil
 from torch.utils.data import DataLoader
 from utils.plot_script import *
 from utils.get_opt import get_opt
-from datasets1.evaluator_models import MotionLenEstimatorBiGRU
+from datasets.evaluator_models import MotionLenEstimatorBiGRU
 
 from trainers import DDPMTrainer
 from models import MotionTransformer

@@ -1,4 +1,4 @@
-from .dataset1 import Text2MotionDataset
+from .dataset import Text2MotionDataset
 from .evaluator import (
     EvaluationDataset,
     get_dataset_motion_loader,

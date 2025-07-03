@@ -23,7 +23,7 @@ from models.gaussian_diffusion import (
     LossType
 )
 
-from datasets1 import build_dataloader
+from datasets import build_dataloader
 
 
 class DDPMTrainer(object):
