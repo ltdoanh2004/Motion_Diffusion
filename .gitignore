@@ -1,3 +1,4 @@
-/datasets/BEAT
+/datasets/BEAT/*
+/datasets/BEAT_numpy/*
 /PantoMatrix
 /PantoMatrix_audio
