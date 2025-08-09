@@ -1,4 +1,5 @@
 /datasets/BEAT/*
-/datasets/BEAT_numpy/*
+/datasets/beat2motion_đataset/*
 /PantoMatrix
 /PantoMatrix_audio
+/checkpoints/*

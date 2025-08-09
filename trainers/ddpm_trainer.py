@@ -11,6 +11,7 @@ from utils.utils import print_current_loss
 from os.path import join as pjoin
 import codecs as cs
 import torch.distributed as dist
+from tqdm import tqdm
 
 
 # from mmcv.runner import get_dist_info
@@ -183,8 +184,6 @@ class DDPMTrainer(object):
         if self.opt.is_continue:
             model_dir = pjoin(self.opt.model_dir, 'latest.tar')
             cur_epoch, it = self.load(model_dir)
-        model_dir = '/home/ltdoanh/jupyter/jupyter/ldtan/MotionDiffuse/t2m/t2m_new_ver2/model/latest.tar'
-        cur_epoch, it = self.load(model_dir)
         start_time = time.time()
 
         train_loader = build_dataloader(
@@ -199,24 +198,31 @@ class DDPMTrainer(object):
         logs = OrderedDict()
         for epoch in range(cur_epoch, self.opt.num_epochs):
             self.train_mode()
-            for i, batch_data in enumerate(train_loader):
+
+            epoch_bar = tqdm(train_loader, desc=f"Epoch {epoch}", leave=False)
+            for i, batch_data in enumerate(epoch_bar):
+                if batch_data is None:
+                    continue  # bỏ batch lỗi nếu có
+                
                 self.forward(batch_data)
                 log_dict = self.update()
+
                 for k, v in log_dict.items():
-                    if k not in logs:
-                        logs[k] = v
-                    else:
-                        logs[k] += v
+                    logs[k] = logs.get(k, 0) + v
+
                 it += 1
-                if it % self.opt.log_every == 0 :
-                    mean_loss = OrderedDict({})
+
+                if it % self.opt.log_every == 0:
+                    mean_loss = OrderedDict()
                     for tag, value in logs.items():
                         mean_loss[tag] = value / self.opt.log_every
                     logs = OrderedDict()
+                    epoch_bar.set_postfix({k: f"{v:.4f}" for k, v in mean_loss.items()})
                     print_current_loss(start_time, it, mean_loss, epoch, inner_iter=i)
 
-                # if it % self.opt.save_latest == 0 :
-                #     self.save(pjoin(self.opt.model_dir, 'latest.tar'), epoch, it)
+
+                        # if it % self.opt.save_latest == 0 :
+                        #     self.save(pjoin(self.opt.model_dir, 'latest.tar'), epoch, it)
 
             self.save(pjoin(self.opt.model_dir, 'latest.tar'), epoch, it)
 
