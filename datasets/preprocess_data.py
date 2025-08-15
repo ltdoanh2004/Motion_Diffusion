@@ -146,10 +146,13 @@ def preprocess_motion_data(base_dir, npy_out_dir, txt_out_dir):
                         os.rename(os.path.join(npy_out_dir, f), os.path.join(txt_out_dir, f))
 
 def main():
-    base_dir = "data/bvh"
-    npy_out_dir = "data/npy"
-    txt_out_dir = "data/txt"
-
+    base_dir = "./BEAT/beat_english_v0.2.1/beat_english_v0.2.1/"
+    data_dir = "./BEAT_numpy"
+    os.makedirs(data_dir, exist_ok=True)
+    npy_out_dir = os.path.join(data_dir , "npy_segments")
+    txt_out_dir = os.path.join(data_dir, "txt_segments")
+    os.makedirs(npy_out_dir, exist_ok=True)
+    os.makedirs(txt_out_dir, exist_ok=True)
     os.makedirs(npy_out_dir, exist_ok=True)
     os.makedirs(txt_out_dir, exist_ok=True)
 
