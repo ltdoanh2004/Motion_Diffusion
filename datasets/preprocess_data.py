@@ -11,7 +11,7 @@ from textgrid import TextGrid
 def time_to_frame(t, fps=60):  
     return int(round(t * fps))
 
-def extract_sentences_with_text(textgrid_path, motion_data, output_dir, fps=30, pause_threshold=0.5,
+def extract_sentences_with_text(textgrid_path, text_path , motion_data, output_dir, fps=30, pause_threshold=0.5,
     split_parts=2, use_first_part_only=True
 ):
     basename = os.path.splitext(os.path.basename(textgrid_path))[0]
