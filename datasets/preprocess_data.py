@@ -157,3 +157,6 @@ def main():
     os.makedirs(txt_out_dir, exist_ok=True)
 
     preprocess_motion_data(base_dir, npy_out_dir, txt_out_dir)
+
+if __name__ == "__main__":
+    main()
