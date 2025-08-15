@@ -109,41 +109,41 @@ def preprocess_motion_data(base_dir, npy_out_dir, txt_out_dir):
         ('down', DownSampler(2)),
         ('stdscale', ListStandardScaler())
     ])
+    for folder in os.listdir(base_dir):
+        folder_path = os.path.join(base_dir, folder)
+        for fname in os.listdir(folder_path):
+            if fname.endswith(".bvh"):
+                basename = fname.replace(".bvh", "")
+                bvh_path = os.path.join(folder_path, fname)
+                textgrid_path = os.path.join(folder_path, basename + ".TextGrid")
+                text_path = os.path.join(folder_path, basename + ".txt")
+                if not os.path.exists(textgrid_path) or not os.path.exists(text_path):
+                    continue  
 
-    for fname in os.listdir(base_dir):
-        if fname.endswith(".bvh"):
-            basename = fname.replace(".bvh", "")
-            bvh_path = os.path.join(base_dir, fname)
-            textgrid_path = os.path.join(base_dir, basename + ".TextGrid")
-            text_path = os.path.join(base_dir, basename + ".txt")
-            if not os.path.exists(textgrid_path) or not os.path.exists(text_path):
-                continue  # Bỏ qua nếu thiếu file
+                if not os.path.exists(textgrid_path) or not os.path.exists(text_path):
+                    continue  
 
-            # Parse BVH và chạy pipeline
-            if not os.path.exists(textgrid_path) or not os.path.exists(text_path):
-                continue  # Bỏ qua nếu thiếu file
+                try:
+                    parsed_data = parser.parse(bvh_path)
+                except Exception as e:
+                    print(f"❌ Lỗi khi parse {bvh_path}: {e}")
+                    continue
+                piped_data = data_pipe.fit_transform([parsed_data])
 
-            try:
-                parsed_data = parser.parse(bvh_path)
-            except Exception as e:
-                print(f"❌ Lỗi khi parse {bvh_path}: {e}")
-                continue
-            piped_data = data_pipe.fit_transform([parsed_data])
+                # Gọi hàm tách segment
+                extract_sentences_with_text(
+                    textgrid_path=textgrid_path,
+                    text_path=text_path,
+                    motion_data=piped_data,
+                    output_dir=npy_out_dir,
+                    split_parts=2,
+                    use_first_part_only=True
+                )
 
-            # Gọi hàm tách segment
-            extract_sentences_with_text(
-                textgrid_path=textgrid_path,
-                text_path=text_path,
-                motion_data=piped_data,
-                output_dir=npy_out_dir,
-                split_parts=2,
-                use_first_part_only=True
-            )
-
-            # Di chuyển file .txt sang txt_out_dir
-            for f in os.listdir(npy_out_dir):
-                if f.endswith(".txt"):
-                    os.rename(os.path.join(npy_out_dir, f), os.path.join(txt_out_dir, f))
+                # Di chuyển file .txt sang txt_out_dir
+                for f in os.listdir(npy_out_dir):
+                    if f.endswith(".txt"):
+                        os.rename(os.path.join(npy_out_dir, f), os.path.join(txt_out_dir, f))
 
 def main():
     base_dir = "data/bvh"
