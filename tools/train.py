@@ -52,7 +52,7 @@ if __name__ == '__main__':
     # dataset‑specific paths & hyper‑params
     # -------------------------------------------------------
     if opt.dataset_name == 't2m':
-        opt.data_root       = '/home/ltdoanh/jupyter/jupyter/ldtan/HumanML3D/HumanML3D'
+        opt.data_root       = './datasets/HumanML3D/HumanML3D'
         opt.motion_dir      = pjoin(opt.data_root, 'new_joint_vecs')
         opt.text_dir        = pjoin(opt.data_root, 'texts')
         opt.joints_num      = 22
@@ -63,7 +63,7 @@ if __name__ == '__main__':
         DatasetClass        = Text2MotionDataset
 
     elif opt.dataset_name == 'kit':
-        opt.data_root       = './data/KIT-ML'
+        opt.data_root       = './datasets/KIT-ML'
         opt.motion_dir      = pjoin(opt.data_root, 'new_joint_vecs')
         opt.text_dir        = pjoin(opt.data_root, 'texts')
         opt.joints_num      = 21
@@ -74,7 +74,7 @@ if __name__ == '__main__':
         DatasetClass        = Text2MotionDataset
 
     elif opt.dataset_name == 'beat':                           # ← NEW BRANCH
-        opt.data_root       = './datasets/beat2motion_dataset'   # change if needed
+        opt.data_root       = './datasets/BEAT_numpy'   # change if needed
         opt.motion_dir      = pjoin(opt.data_root, 'npy_segments')
         opt.text_dir        = pjoin(opt.data_root, 'txt_segments')
         opt.joints_num      = 55
