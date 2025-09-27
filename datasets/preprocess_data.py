@@ -103,7 +103,7 @@ def preprocess_motion_data(base_dir, npy_out_dir, txt_out_dir):
     data_pipe = Pipeline([
         ('param', MocapParameterizer('position')),
         ('rcpn', RootCentricPositionNormalizer()),
-        ('delta', RootTransformer('abdolute_translation_deltas')),
+        ('delta', RootTransformer('absolute_translation_deltas')),
         ('const', ConstantsRemover()),
         ('np', Numpyfier()),
         ('down', DownSampler(2)),
@@ -133,7 +133,7 @@ def preprocess_motion_data(base_dir, npy_out_dir, txt_out_dir):
             # Gọi hàm tách segment
             extract_sentences_with_text(
                 textgrid_path=textgrid_path,
-                text_path=text_path,
+                # text_path=text_path,
                 motion_data=piped_data,
                 output_dir=npy_out_dir,
                 split_parts=1,
@@ -146,11 +146,21 @@ def preprocess_motion_data(base_dir, npy_out_dir, txt_out_dir):
                     os.rename(os.path.join(npy_out_dir, f), os.path.join(txt_out_dir, f))
 
 def main():
-    base_dir = "data/bvh"
-    npy_out_dir = "data/npy"
-    txt_out_dir = "data/txt"
+    base_dir = "./BEAT/beat_english_v0.2.1/beat_english_v0.2.1/"
+    npy_out_dir = "./BEAT_numpy/npy_segments/"
+    txt_out_dir = "./BEAT_numpy/txt_segments/"
 
     os.makedirs(npy_out_dir, exist_ok=True)
     os.makedirs(txt_out_dir, exist_ok=True)
-
+    print("precess")
     preprocess_motion_data(base_dir, npy_out_dir, txt_out_dir)
+    
+if __name__ == "__main__":
+  print("doanh")
+  main()
+  print("doanh")
+
+
+
+    
+    
